@@ -1,32 +1,35 @@
 #pragma once
 #include <string>
+#include <ArduinoJson.h>
 
 using namespace std;
 
 class AreaAtuacao
 {
     private:
+        string areaID;
         int sensorTemperatura;
         int sensorGasesToxicos;
         int sensorFumaca;
         string releAtuador;
         string avisoAlerta;
+        bool temFumaca;
 
 
     public:
-        AreaAtuacao(int sensorTemperatura, int sensorGasesToxicos, string releAtuador, string avisoAlerta);
+        AreaAtuacao(bool temFumaca, string areaID);
         ~AreaAtuacao();
+        string getAreaID();
         int getSensorTemperatura();
         int getSensorGasesToxicos();
+        int getSensorFumaca();
         string getReleAtuador();
         string getAvisoAlerta();
+        bool getTemFumaca();
+        void atualizaSensores();
 
-        void setSensorTemperatura(int sensorTemperatura);
-        void setSensorGasesToxicos(int sensorGasesToxicos);
-        void setReleAtuador(string releAtuador);
-        void setAvisoAlerta(string avisoAlerta);
-        
-
-
+        JsonObject  toJsonSensores(JsonObject& json);     
+        JsonObject  toJsonAtuadores(JsonObject& json);
+        JsonObject  toJsonAlertas(JsonObject& json);
 
 };
