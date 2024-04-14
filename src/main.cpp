@@ -74,6 +74,15 @@ void taskArea(void *pvParameters)
 
     while (true)
     {
+        // Verifica a conexão WiFi
+        if (WiFi.status() != WL_CONNECTED)
+        {
+            Serial.println("Erro: Não conectado ao WiFi. Tentando reconectar...");
+            iniciaWifi(); // Tente reconectar WiFi
+            vTaskDelay(pdMS_TO_TICKS(5000)); // Aguarda 5 segundos antes de continuar
+            continue; // Retorna ao início do loop para verificar a conexão novamente
+        }
+
         area->atualizaSensores();
 
         if (MQTT.connected()) {
@@ -117,6 +126,8 @@ void taskArea(void *pvParameters)
             Serial.println("Dados: " + String(output));
         } else {
             Serial.println("Erro: Não conectado ao servidor MQTT. Tentando reconectar...");
+            if (WiFi.status() != WL_CONNECTED); // Tente reconectar WiFi
+                iniciaWifi(); // Tente reconectar WiFi
             initMQTT(); // Tente reconectar MQTT
         }
 
@@ -127,5 +138,6 @@ void taskArea(void *pvParameters)
         vTaskDelay(pdMS_TO_TICKS(5000));
     }
 }
+
 
 

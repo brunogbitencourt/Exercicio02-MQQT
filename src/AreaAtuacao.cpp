@@ -4,8 +4,8 @@
 AreaAtuacao::AreaAtuacao(bool temFumaca, string areaID)
 {
     this->areaID = areaID;
-    this->sensorTemperatura = getSensorTemperatura();
-    this->sensorGasesToxicos = getSensorGasesToxicos();
+    this->sensorTemperatura = (temFumaca) ? getSensorTemperatura() : NULL;
+    this->sensorGasesToxicos = (temFumaca) ? getSensorGasesToxicos() : NULL;
     this->releAtuador = getReleAtuador();
     this->avisoAlerta = getAvisoAlerta();
     this->temFumaca = temFumaca;
@@ -24,18 +24,18 @@ string AreaAtuacao::getAreaID()
 
 int AreaAtuacao::getSensorTemperatura()
 {
-    return this->sensorTemperatura = (rand() % 100) + 1;
+    return this->sensorTemperatura = (!this->temFumaca) ? (rand() % 100) + 1 : NULL; 
 }
 
 int AreaAtuacao::getSensorGasesToxicos()
 {
-    return this->sensorGasesToxicos = (rand() % 100) + 1;
+    return this->sensorGasesToxicos = (!this->temFumaca) ? (rand() % 100) + 1 : NULL;
 }
 
 
 int AreaAtuacao::getSensorFumaca()
 {
-    return this->sensorFumaca = (rand() % 100) + 1; 
+    return this->sensorFumaca = (this->temFumaca) ? (rand() % 100) + 1 : NULL;
 }
 
 string AreaAtuacao::getReleAtuador()
@@ -45,7 +45,7 @@ string AreaAtuacao::getReleAtuador()
 
 string AreaAtuacao::getAvisoAlerta()
 {
-    return this->avisoAlerta = (rand() % 2) == 0 ? "Alerta" : "Sem Alerta";
+    return this->avisoAlerta = (rand() % 2) == 0 ? "Limite Ultrapassado" : "Operacao Normal";
 }
 
 bool AreaAtuacao::getTemFumaca()
